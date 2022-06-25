@@ -3,6 +3,7 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import DeckForm from './DeckForm';
+import compare_decks from './deck_compare_utils';
 
 class DeckCmpPage extends React.Component {
     constructor(props){
@@ -12,6 +13,7 @@ class DeckCmpPage extends React.Component {
     }
 
     render() {
+        console.log(compare_decks('aa', 'bb'))
       return <>
       <Container fluid>
         <Row>
