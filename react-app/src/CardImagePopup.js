@@ -15,8 +15,8 @@ class CardImagePopup extends React.Component {
           position: 'absolute',
           height: this.img_height,
           width: getWidthFromHeight(this.img_height),
-          top: this.props.mouseY + 10,
-          left: this.props.mouseX + 10
+          top: this.props.mouseY - 300,
+          left: this.props.mouseX + 30
           }}/>
         </>
   }

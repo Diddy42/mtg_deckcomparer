@@ -6,26 +6,44 @@ class CardTableItem extends React.Component {
     constructor(props){
         super(props);
 
-        this.state = {hover: false, mouseX: 0, mouseY: 0, imgSrc: missing_card, color: 'white'};
-
-        this.update_color();
+        this.state = {hover: false, mouseX: 0, mouseY: 0, imgSrc: missing_card, color: 'white', scryfall_uri: ''};
     }
 
     //{ this.state.hover && <CardImagePopup imgSrc={missing_card}/> }
 
     render() {
+        this.update_color();
+        this.update_scryfall_uri();
         return <>
+                
                 <tr 
                     key={this.props.card_obj.name}
                     onMouseOver={this.handleMouseOver}
                     onMouseOut={this.handleMouseOut}
                     onMouseMove={this._onMouseMove.bind(this)}
+                    onClick={this.handleClick.bind(this)}
                 >
+                    
                     <td style={{backgroundColor: this.get_style_color_from_qty(this.props.card_obj.quantity), width:50}}>{this.get_qty_string(this.props.card_obj.quantity)}</td>
-                    <td style={{backgroundColor: this.state.color}}>{this.props.card_obj.name}</td>
-                    { this.state.hover && <CardImagePopup imgSrc={this.state.imgSrc} mouseX={this.state.mouseX} mouseY={this.state.mouseY}/> }
+                    <td style={{backgroundColor: this.state.color}}>
+                            {this.props.card_obj.name}
+                    </td>
+                    
+                    
                 </tr>
+
+                { this.state.hover && <CardImagePopup imgSrc={this.state.imgSrc} mouseX={this.state.mouseX} mouseY={this.state.mouseY}/> }
         </>
+    }
+
+    update_scryfall_uri = () => {
+        this.props.card_obj.get_scryfall_url().then((result) => {
+            this.setState({scryfall_uri: result});
+        });
+    }
+
+    handleClick = () => {
+        window.open(this.state.scryfall_uri);
     }
 
     get_qty_string = (qty) => {
@@ -83,7 +101,7 @@ class CardTableItem extends React.Component {
     }
 
     _onMouseMove(e) {
-        this.setState({ mouseX: e.clientX, mouseY: e.clientY });
+        this.setState({ mouseX: e.pageX, mouseY: e.pageY });
       }
 
     handleMouseOver = () => {

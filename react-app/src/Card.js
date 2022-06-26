@@ -5,6 +5,14 @@ class Card {
       this.scryfall_data = null;
     }
 
+    async get_scryfall_url(){
+      if (this.scryfall_data == null){
+        await this.get_scryfall_data();
+      }
+
+      return this.scryfall_data.scryfall_uri;
+    }
+
     async get_colors(){
       if (this.scryfall_data == null){
         await this.get_scryfall_data();
@@ -18,9 +26,14 @@ class Card {
         await this.get_scryfall_data();
       }
 
-      //const image_uri = this.scryfall_data.image_uris.small;     //small, less bandwidth
-      const image_uri = this.scryfall_data.image_uris.normal;          //normal, higer quality
-      return image_uri;
+      const quality = 'normal';   //'small' for less bandwidth
+
+      if('image_uris' in this.scryfall_data){
+        return this.scryfall_data.image_uris[quality];
+      }
+      else if('card_faces' in this.scryfall_data){
+        return this.scryfall_data.card_faces[0].image_uris[quality];
+      }
     }
 
     async get_scryfall_data(){
@@ -29,7 +42,6 @@ class Card {
       console.log('calling ' + url);
       const myJson = await response.json();
       this.scryfall_data = myJson;
-      console.log(myJson);
     }
   }
 

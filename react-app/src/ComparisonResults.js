@@ -10,12 +10,12 @@ class ComparisonResults extends React.Component {
       <Container fluid>
         <Row>
             <Col>
-                <h4>Cards only in deck 1:</h4>
+                <h4>Cards only in deck 1 ({this.props.comparisonResults.cards_only_in_deck_1.length} distinct):</h4>
                 <CardList cardList={this.props.comparisonResults.cards_only_in_deck_1} quantitiesAsChanges={false}/>
             </Col>
 
             <Col>
-                <h4>Cards only in deck 2:</h4>
+                <h4>Cards only in deck 2 ({this.props.comparisonResults.cards_only_in_deck_2.length}  distinct):</h4>
                 <CardList cardList={this.props.comparisonResults.cards_only_in_deck_2} quantitiesAsChanges={false}/>
             </Col>
 
