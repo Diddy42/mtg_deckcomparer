@@ -20,12 +20,12 @@ class ComparisonResults extends React.Component {
             </Col>
 
             <Col>
-                <h4>Cards that changed quantity:</h4>
+                <h4>Cards that changed quantity ({this.props.comparisonResults.cards_different_qty.length}  distinct):</h4>
                 <CardList cardList={this.props.comparisonResults.cards_different_qty} quantitiesAsChanges={true}/>
             </Col>
 
             <Col>
-                <h4>Cards unchanged:</h4>
+                <h4>Cards unchanged ({this.props.comparisonResults.cards_unchanged.length}  distinct):</h4>
                 <CardList cardList={this.props.comparisonResults.cards_unchanged} quantitiesAsChanges={false}/>
             </Col>
         </Row>

@@ -6,4 +6,3 @@ Add statistics, maybe at the bottom.
     - paper cost ($)
 
 
-change the name (React App) and logo on the chrome tab
