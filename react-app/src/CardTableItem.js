@@ -6,14 +6,12 @@ class CardTableItem extends React.Component {
     constructor(props){
         super(props);
 
-        this.state = {hover: false, mouseX: 0, mouseY: 0, imgSrc: missing_card, color: 'white', scryfall_uri: ''};
+        this.state = {hover: false, mouseX: 0, mouseY: 0, imgSrc: missing_card};
     }
 
     //{ this.state.hover && <CardImagePopup imgSrc={missing_card}/> }
 
     render() {
-        this.update_color();
-        this.update_scryfall_uri();
         return <>
                 
                 <tr 
@@ -25,7 +23,7 @@ class CardTableItem extends React.Component {
                 >
                     
                     <td style={{backgroundColor: this.get_style_color_from_qty(this.props.card_obj.quantity), width:50}}>{this.get_qty_string(this.props.card_obj.quantity)}</td>
-                    <td style={{backgroundColor: this.state.color}}>
+                    <td style={{backgroundColor: this.get_color_str()}}>
                             {this.props.card_obj.name}
                     </td>
                     
@@ -36,14 +34,8 @@ class CardTableItem extends React.Component {
         </>
     }
 
-    update_scryfall_uri = () => {
-        this.props.card_obj.get_scryfall_url().then((result) => {
-            this.setState({scryfall_uri: result});
-        });
-    }
-
     handleClick = () => {
-        window.open(this.state.scryfall_uri);
+        window.open(this.props.card_obj.get_scryfall_url());
     }
 
     get_qty_string = (qty) => {
@@ -72,32 +64,33 @@ class CardTableItem extends React.Component {
         }
     }
 
-    update_color = () => {
-        this.props.card_obj.get_colors().then((result) => {
-            if(result.length > 1){
-                this.setState({color: '#DCD130'});
+    get_color_str = () => {
+        var result = this.props.card_obj.get_colors();
+
+        if(result.length > 1){
+            //this.setState({color: '#DCD130'});
+            return '#DCD130';
+        }
+        else if(result.length === 0){
+            return '#C0C0C0';
+        }
+        else{
+            if(result[0] === 'G'){
+                return '#46B642';
             }
-            else if(result.length === 0){
-                this.setState({color: '#C0C0C0'});
+            else if(result[0] === 'B'){
+                return '#8A8A85';
             }
-            else{
-                if(result[0] === 'G'){
-                    this.setState({color: '#46B642'});
-                }
-                else if(result[0] === 'B'){
-                    this.setState({color: '#8A8A85'});
-                }
-                else if(result[0] === 'U'){
-                    this.setState({color: '#6670FF'});
-                }
-                else if(result[0] === 'R'){
-                    this.setState({color: '#F95252'});
-                }
-                else if(result[0] === 'W'){
-                    this.setState({color: '#FFFFD5'});
-                }
+            else if(result[0] === 'U'){
+                return '#6670FF';
             }
-        });
+            else if(result[0] === 'R'){
+                return '#F95252';
+            }
+            else if(result[0] === 'W'){
+                return '#FFFFD5';
+            }
+        }
     }
 
     _onMouseMove(e) {
@@ -105,11 +98,7 @@ class CardTableItem extends React.Component {
       }
 
     handleMouseOver = () => {
-        this.setState({hover: true});
-
-        this.props.card_obj.get_image_uri().then((result) => {
-            this.setState({imgSrc: result});
-        });
+        this.setState({hover: true, imgSrc: this.props.card_obj.get_image_uri()});
     }
 
     handleMouseOut = () => {
