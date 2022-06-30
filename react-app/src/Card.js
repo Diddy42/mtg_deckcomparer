@@ -5,6 +5,24 @@ class Card {
       this.scryfall_data = null;
     }
 
+    get_type(){
+      if(this.scryfall_data === null){
+        return 'Basic Land';
+      }
+
+      var type_line = this.scryfall_data.type_line;
+
+      var type = '';
+      if(type_line.includes('—')){
+        type = type_line.split('—')[0].trim();
+      }
+      else{
+        type = type_line;
+      }
+
+      return type;
+    }
+
     get_cmc(){
       if(this.scryfall_data === null){
         return 0;
