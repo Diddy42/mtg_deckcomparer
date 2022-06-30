@@ -5,6 +5,14 @@ class Card {
       this.scryfall_data = null;
     }
 
+    get_cmc(){
+      if(this.scryfall_data === null){
+        return 0;
+      }
+
+      return this.scryfall_data.cmc;
+    }
+
     get_scryfall_url(){
       if(this.scryfall_data === null){
         return encodeURI('https://scryfall.com/search?q=' + this.name);
