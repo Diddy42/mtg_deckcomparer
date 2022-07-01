@@ -34,8 +34,6 @@ class GroupedCardList extends React.Component {
 
         type = type.trim();
 
-        console.log(type, res, type in res)
-
         if(type in res){
             res[type].push(cardList[i]);
         }

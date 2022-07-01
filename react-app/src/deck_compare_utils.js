@@ -20,6 +20,13 @@ function get_name_and_qty_from_line(line){
         }
     }
 
+    if(cName.includes('(')){
+        var idx = cName.indexOf('(');
+        cName = cName.substring(0, idx);
+    }
+
+    cName = cName.trim();
+
     return [qty, cName];
 }
 
@@ -31,7 +38,13 @@ function get_deck_obj(deck_str){
     var cName;
     for(var i = 0; i < d_lines.length; i++){
         [qty, cName] = get_name_and_qty_from_line(d_lines[i]);
-        d_obj[cName] = qty;
+        
+        if(cName in d_obj){
+            d_obj[cName] = d_obj[cName] + qty;
+        }
+        else{
+            d_obj[cName] = qty;
+        }
     }
 
     return d_obj;
