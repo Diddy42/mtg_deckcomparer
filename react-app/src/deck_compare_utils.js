@@ -80,14 +80,6 @@ function compare_decks(deck1_str, deck2_str){
         }
     }
 
-    /*json_res['cards_only_in_deck_1'] = [new Card('Reflections of Littjara', 2), new Card('Drover of the Mighty', 1)];
-
-    json_res['cards_only_in_deck_2'] = [new Card('Lightning Bolt', 2), new Card('Rally the Ranks', 150)];
-
-    json_res['cards_different_qty'] = [new Card('Heartless Act', 1), new Card('Jaspera Sentinel', -2)];
-
-    json_res['cards_unchanged'] = [new Card('Koma, Cosmos Serpent', 1), new Card('Ulamog, the Ceaseless Hunger', 4)];*/
-
     return json_res
 }
 

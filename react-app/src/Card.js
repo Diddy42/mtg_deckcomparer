@@ -64,7 +64,10 @@ class Card {
       const response = await fetch(url);
       console.log('called ' + url);
       const myJson = await response.json();
-      this.scryfall_data = myJson;
+
+      if(myJson.object !== 'error'){
+        this.scryfall_data = myJson;
+      }
     }
   }
 
