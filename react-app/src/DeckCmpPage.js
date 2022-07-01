@@ -10,7 +10,7 @@ class DeckCmpPage extends React.Component {
     constructor(props){
         super(props);
 
-        this.state = {deck1_str: '', deck2_str: '', comparisonResults: compare_decks('', '')};
+        this.state = {deck1_str: '', deck2_str: '', comparisonResults: compare_decks('', ''), comparisonResultsSideboard: compare_decks('', '')};
     }
 
     render() {
@@ -22,7 +22,13 @@ class DeckCmpPage extends React.Component {
         </Row>
 
         <Row>
+          <h2>Main deck:</h2>
           <Col><ComparisonResults comparisonResults={this.state.comparisonResults}/></Col>
+        </Row>
+
+        <Row>
+          <h2>Sideboard:</h2>
+          <Col><ComparisonResults comparisonResults={this.state.comparisonResultsSideboard}/></Col>
         </Row>
       </Container>
     </>
@@ -34,26 +40,57 @@ class DeckCmpPage extends React.Component {
       for(var i = 0; i < results_properties.length; i++){
         for(var j = 0; j < comparisonResults[results_properties[i]].length; j++){
           comparisonResults[results_properties[i]][j].get_scryfall_data().then(() => {
-              this.setState({comparisonResults: comparisonResults});
+              this.setState({comparisonResults: this.state.comparisonResults});  //just to trigger a re-render
           });
         }
       }
   }
 
-  handle_new_deck1_str = (e) => {
-    var comparisonResults = compare_decks(e.target.value, this.state.deck2_str);
+  split_sideboard_and_deck = (full_deck_str) => {
+    var deck = '';
+    var sideboard = '';
 
-    this.setState({deck1_str: e.target.value, comparisonResults: comparisonResults });
+    if(full_deck_str.includes('Sideboard')){
+      deck = full_deck_str.split('Sideboard')[0];
+      sideboard = full_deck_str.split('Sideboard')[1];
+    }
+    else{
+      deck = full_deck_str;
+    }
+
+    return [deck, sideboard];
+  }
+
+  handle_new_deck1_str = (e) => {
+    var deck1, sideboard1;
+    var deck2, sideboard2;
+  
+    [deck1, sideboard1] = this.split_sideboard_and_deck(e.target.value);
+    [deck2, sideboard2] = this.split_sideboard_and_deck(this.state.deck2_str);
+
+    var comparisonResults = compare_decks(deck1, deck2);
+    var comparisonResultsSideboard = compare_decks(sideboard1, sideboard2);
+
+    this.setState({deck1_str: e.target.value, comparisonResults: comparisonResults, comparisonResultsSideboard: comparisonResultsSideboard });
 
     this.download_card_data(comparisonResults);
+    this.download_card_data(comparisonResultsSideboard);
   }
 
   handle_new_deck2_str = (e) => {
-    var comparisonResults = compare_decks(this.state.deck1_str, e.target.value);
+    var deck1, sideboard1;
+    var deck2, sideboard2;
+  
+    [deck1, sideboard1] = this.split_sideboard_and_deck(this.state.deck1_str);
+    [deck2, sideboard2] = this.split_sideboard_and_deck(e.target.value);
 
-    this.setState({deck2_str: e.target.value, comparisonResults: comparisonResults });
+    var comparisonResults = compare_decks(deck1, deck2);
+    var comparisonResultsSideboard = compare_decks(sideboard1, sideboard2);
+
+    this.setState({deck2_str: e.target.value, comparisonResults: comparisonResults, comparisonResultsSideboard: comparisonResultsSideboard });
 
     this.download_card_data(comparisonResults);
+    this.download_card_data(comparisonResultsSideboard);
   }
 }
 

@@ -1,8 +1,0 @@
-
-
-
-Add statistics, maybe at the bottom.
-    - average mana cost
-    - paper cost ($)
-
-
